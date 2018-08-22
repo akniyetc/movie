@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
+    <color name="colorText">#808080</color>
+
+
+    <color name="primary_text">#ff1f1f1f</color>
+    <color name="secondary_text">#aa1f1f1f</color>
+
+    <color name="colorSecondary">#7f1a18</color>
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorTextSecondary">#7f1a18</color>
+
+    <color name="translucentBackground">#ED000000</color>
+
+    <!--Calligraphy Config-->
+    <string name="font_main_regular">fonts/Roboto-Regular.ttf</string>
+    <string name="font_main_medium">fonts/Roboto-Medium.ttf</string>
+</resources>

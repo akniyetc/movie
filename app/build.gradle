@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+apply from: '../ci.gradle'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.inc.silence.movies"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode getBuildNumber()
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary true
+
+        buildConfigField "String", "VERSION_UID", '"' + getBuildUid() + '"'
+        buildConfigField "String", "APP_DESCRIPTION", '"Movies app with clean architecture."'
+        buildConfigField "String", "FEEDBACK_URL", '"https://github.com/s1lenced/movies/issues"'
+        buildConfigField "String", "APP_HOME_PAGE", '"https://github.com/s1lenced/movies"'
+    }
+    buildTypes {
+        debugPG {
+            initWith debug
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix '.debugPG'
+            versionNameSuffix ' debugPG'
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+kapt {
+    generateStubs true
+}
+
+ext {
+    supportLibraryVersion = "28.0.0-rc01"
+    moxyVersion = "1.5.5"
+    daggerVersion = "2.16"
+    retrofitVersion = "2.4.0"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
+    implementation "com.android.support:design:$supportLibraryVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //Log
+    implementation 'com.jakewharton.timber:timber:4.6.1'
+    //MVP Moxy
+    kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
+    implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
+    //Cicerone Navigation
+    implementation "ru.terrakok.cicerone:cicerone:3.0.0"
+    //Gson
+    implementation "com.google.code.gson:gson:2.8.2"
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    //Logging
+    implementation "com.facebook.stetho:stetho:1.5.0"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.5.0"
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation "io.reactivex.rxjava2:rxjava:2.1.14"
+    implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+    //Image load and cache
+    implementation "com.github.bumptech.glide:glide:4.0.0"
+
+    //Dagger
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    // if you use the support libraries
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    implementation "com.pixplicity.easyprefs:library:1.9.0@aar"
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+
+    implementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
+
+    //Custom fonts
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+
+    //Adapter simplify
+    implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
+
+    //Lottie
+    implementation 'com.airbnb.android:lottie:2.1.0'
+}
