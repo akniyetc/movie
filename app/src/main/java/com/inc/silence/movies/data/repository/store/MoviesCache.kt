@@ -15,7 +15,7 @@ interface MoviesCache {
     fun clearMovieDetail(id: Long) : Completable
 
 
-    fun setLastCacheTime(lastCache: Long)
+    fun setLastCacheTime(lastCache: Long, id: Long)
 
     fun isExpired(id: Long): Boolean
 }

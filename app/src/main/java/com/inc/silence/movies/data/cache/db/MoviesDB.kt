@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
-import com.inc.silence.movies.data.cache.dao.MovieDetailsDao
+import com.inc.silence.movies.data.cache.dao.MoviesDao
 import com.inc.silence.movies.domain.entities.Movie
 
 @Database(
@@ -20,7 +20,7 @@ abstract class MoviesDB : RoomDatabase() {
 
     //abstract fun cachedMoviesDao(): MoviesDao
 
-    abstract fun cachedMovieDetailDao(): MovieDetailsDao
+    abstract fun cachedMovieDetailDao(): MoviesDao
 
     private var mINSTANCE: MoviesDB? = null
 

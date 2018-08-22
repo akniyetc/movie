@@ -6,5 +6,5 @@ import io.reactivex.Single
 interface MoviesRepository {
 
     fun getMovies(page: Int): Single<List<Movie>>
-    fun getMoverDetails(id: Long): Single<Movie>
+    fun getMovieDetails(id: Long): Single<Movie>
 }

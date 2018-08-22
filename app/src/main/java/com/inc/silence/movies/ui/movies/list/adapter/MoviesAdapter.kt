@@ -29,10 +29,15 @@ class MoviesAdapter (clickListener: (Movie, MoviesRouter.Extras) -> Unit)
     fun showProgress(isVisible: Boolean) {
         val currentProgress = isProgress()
 
-        if (isVisible && !currentProgress) items.add(ProgressItem())
-        else if (!isVisible && currentProgress) items.remove(items.last())
+        if (isVisible && !currentProgress){
+            items.add(ProgressItem())
+            notifyItemInserted(items.lastIndex)
+        }
+        else if (!isVisible && currentProgress){
+            items.remove(items.last())
+            notifyItemRemoved(items.lastIndex)
+        }
 
-        notifyItemChanged(items.lastIndex)
     }
 
     private fun isProgress() = items.isNotEmpty() && items.last() is ProgressItem

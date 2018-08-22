@@ -20,7 +20,7 @@ class MoviesRepositoryImpl @Inject constructor(val factory: MoviesDataStoreFacto
 
     }
 
-    override fun getMoverDetails(id: Long): Single<Movie> {
+    override fun getMovieDetails(id: Long): Single<Movie> {
         return factory.retrieveDataStore(id)
                 .flatMap { it.getMoviesDetails(id) }
                 .subscribeOn(schedulers.io())

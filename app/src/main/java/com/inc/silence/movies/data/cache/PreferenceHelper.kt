@@ -27,7 +27,7 @@ open class PreferenceHelper @Inject constructor(context: Context) {
         return pref.getLong(PREF_KEY_LAST_CACHE + id, 0)
     }
 
-    fun setLastCacheTime(time: Long) {
-        pref.edit().putLong(PREF_KEY_LAST_CACHE, time).apply()
+    fun setLastCacheTime(time: Long, id: Long) {
+        pref.edit().putLong(PREF_KEY_LAST_CACHE + id, time).apply()
     }
 }

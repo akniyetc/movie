@@ -2,13 +2,20 @@ package com.inc.silence.movies.ui.base
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.arellomobile.mvp.MvpAppCompatFragment
+import com.inc.silence.movies.R
 import com.inc.silence.movies.app.App
 import com.inc.silence.movies.di.components.AppComponent
+import com.inc.silence.movies.utils.extension.appContext
+import com.inc.silence.movies.utils.extension.viewContainer
+import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseFragment : MvpAppCompatFragment() {
 
@@ -54,7 +61,13 @@ abstract class BaseFragment : MvpAppCompatFragment() {
         }
     }
 
-    internal fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
-
     open fun onBackPressed() {}
+
+    internal fun notifyWithAction(message: String, actionText: String, action: () -> Any) {
+        val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction(actionText) { _ -> action.invoke() }
+        snackBar.setActionTextColor(ContextCompat.getColor(appContext,
+                R.color.colorTextPrimary))
+        snackBar.show()
+    }
 }

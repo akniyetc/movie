@@ -13,4 +13,6 @@ interface MovieDetailsView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun cancelPostponeTransition()
 }

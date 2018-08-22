@@ -87,7 +87,7 @@ class MoviesFragment : BaseFragment(), MoviesView{
     }
 
     override fun showPageProgress(show: Boolean) {
-        recyclerView.post { adapter.showProgress(isVisible) }
+        recyclerView.post { adapter.showProgress(show) }
     }
 
     override fun showMessage(message: String) {

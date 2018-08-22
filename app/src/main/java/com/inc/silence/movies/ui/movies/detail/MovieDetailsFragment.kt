@@ -1,6 +1,8 @@
 package com.inc.silence.movies.ui.movies.detail
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.inc.silence.movies.R
@@ -10,9 +12,7 @@ import com.inc.silence.movies.domain.entities.Movie
 import com.inc.silence.movies.presentation.movies.detail.MovieDetailsPresenter
 import com.inc.silence.movies.presentation.movies.detail.MovieDetailsView
 import com.inc.silence.movies.ui.base.BaseFragment
-import com.inc.silence.movies.utils.extension.isVisible
-import com.inc.silence.movies.utils.extension.loadFromUrl
-import com.inc.silence.movies.utils.extension.loadUrlAndPostponeEnterTransition
+import com.inc.silence.movies.utils.extension.*
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -43,6 +43,7 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
+
         activity?.let { movieDetailAnimator.postponeEnterTransition(it) }
     }
 
@@ -57,10 +58,6 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView {
 
 
     override fun showMovieDetails(movie: Movie) {
-        movieDetailAnimator.scaleUpView(moviePlay)
-        movieDetailAnimator.cancelTransition(moviePlay)
-        moviePoster.loadFromUrl(IMG_URL + movie.backdropPath)
-
         movie.let {
             with(movie) {
                 activity?.let {
@@ -85,7 +82,13 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView {
     }
 
     override fun showMessage(message: String) {
-        showSnackMessage(message)
+        notifyWithAction(message, "Retry", { detailsPresenter.loadDetails() })
+    }
+
+    override fun cancelPostponeTransition() {
+        activity?.let {
+            moviePoster.cancelPostponeEnterTransition(it)
+        }
     }
 
     companion object {

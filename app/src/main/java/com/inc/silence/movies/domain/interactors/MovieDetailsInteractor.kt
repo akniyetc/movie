@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class MovieDetailsInteractor @Inject constructor(val repository: MoviesRepository) {
 
-    fun getMoviesDetail(id: Long) = repository.getMoverDetails(id)
+    fun getMoviesDetail(id: Long) = repository.getMovieDetails(id)
 }

@@ -1,5 +1,6 @@
 package com.inc.silence.movies.utils.extension
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.annotation.LayoutRes
 import android.support.v4.app.FragmentActivity
@@ -18,6 +19,9 @@ import com.bumptech.glide.request.transition.Transition
 import com.inc.silence.movies.R
 import com.inc.silence.movies.data.remote.exceptions.NoNetworkException
 import com.inc.silence.movies.system.ResourceManager
+import com.inc.silence.movies.ui.base.BaseActivity
+import com.inc.silence.movies.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.activity_movies.*
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -56,6 +60,8 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) =
         beginTransaction().func().commit()
 
+fun BaseFragment.close() = fragmentManager?.popBackStack()
+
 fun String.Companion.empty() = ""
 
 fun View.cancelTransition() {
@@ -66,6 +72,12 @@ fun ImageView.loadUrlAndPostponeEnterTransition(url: String, activity: FragmentA
     val target: Target<Drawable> = ImageViewBaseTarget(this,
             activity)
     Glide.with(context.applicationContext).load(url).into(target)
+}
+
+fun ImageView.cancelPostponeEnterTransition(activity: FragmentActivity) {
+    val target: Target<Drawable> = ImageViewBaseTarget(this,
+            activity)
+    Glide.with(context.applicationContext).load("").into(target)
 }
 
 private class ImageViewBaseTarget (var imageView: ImageView?, var activity: FragmentActivity?) : BaseTarget<Drawable>() {
@@ -85,3 +97,7 @@ private class ImageViewBaseTarget (var imageView: ImageView?, var activity: Frag
 
     override fun getSize(cb: SizeReadyCallback) = cb.onSizeReady(SIZE_ORIGINAL, SIZE_ORIGINAL)
 }
+
+val BaseFragment.viewContainer: View get() = (activity as BaseActivity).fragmentContainer
+
+val BaseFragment.appContext: Context get() = activity?.applicationContext!!

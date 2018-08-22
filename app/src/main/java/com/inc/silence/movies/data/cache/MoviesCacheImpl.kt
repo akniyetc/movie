@@ -4,9 +4,7 @@ import com.inc.silence.movies.data.cache.db.MoviesDB
 import com.inc.silence.movies.data.repository.store.MoviesCache
 import com.inc.silence.movies.domain.entities.Movie
 import io.reactivex.Completable
-import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MoviesCacheImpl @Inject constructor(val moviesDB: MoviesDB,
@@ -24,11 +22,12 @@ class MoviesCacheImpl @Inject constructor(val moviesDB: MoviesDB,
     }
 
     override fun saveMovieDetails(movie: Movie): Completable {
+        setLastCacheTime(System.currentTimeMillis(), movie.id)
+
         return Completable.defer {
             moviesDB.cachedMovieDetailDao().insertMovieDetail(movie)
             Completable.complete()
         }
-                .doOnComplete { setLastCacheTime(System.currentTimeMillis()) }
     }
 
     override fun getMovieDetail(id: Long): Single<Movie> {
@@ -41,14 +40,12 @@ class MoviesCacheImpl @Inject constructor(val moviesDB: MoviesDB,
         return moviesDB.cachedMovieDetailDao().getMovieDetail(id) != null
     }
 
-    override fun setLastCacheTime(lastCache: Long) = preferenceHelper.setLastCacheTime(lastCache)
+    override fun setLastCacheTime(lastCache: Long, id: Long) = preferenceHelper.setLastCacheTime(lastCache, id)
 
     override fun isExpired(id: Long): Boolean {
         val currentTime = System.currentTimeMillis()
         val lastUpdateTime = this.getLastCacheUpdateTimeMillis(id)
-        val expired = currentTime - lastUpdateTime > EXPIRATION_TIME
-        if (expired) clearMovieDetail(id)
-        return expired
+        return currentTime - lastUpdateTime > EXPIRATION_TIME
     }
 
     private fun getLastCacheUpdateTimeMillis(id: Long) = preferenceHelper.getLastCacheTime(id)

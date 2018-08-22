@@ -3,8 +3,6 @@ package com.inc.silence.movies.data.repository.source
 import com.inc.silence.movies.data.repository.store.MoviesCache
 import com.inc.silence.movies.data.repository.store.MoviesStore
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MoviesDataStoreFactory @Inject constructor(val moviesCache: MoviesCache,
@@ -12,6 +10,7 @@ class MoviesDataStoreFactory @Inject constructor(val moviesCache: MoviesCache,
                                                  val moviesRemoteDataStore: MoviesRemoteDataStore) {
 
     fun retrieveDataStore(id: Long): Single<MoviesStore> {
+
         return Single.create<MoviesStore> {
             if (moviesCache.isMovieDetailCached(id) && !moviesCache.isExpired(id)) {
                 it.onSuccess(retrieveCacheDataStore())

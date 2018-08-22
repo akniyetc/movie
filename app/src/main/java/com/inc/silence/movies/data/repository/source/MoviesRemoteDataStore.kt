@@ -17,6 +17,6 @@ class MoviesRemoteDataStore @Inject constructor(val moviesRemote: MoviesRemote,
 
     override fun getMoviesDetails(id: Long): Single<Movie> {
         return moviesRemote.getMovieDetails(id)
-                .doAfterSuccess { moviesCache.saveMovieDetails(it) }
+                .doAfterSuccess { moviesCache.saveMovieDetails(it).subscribe() }
     }
 }

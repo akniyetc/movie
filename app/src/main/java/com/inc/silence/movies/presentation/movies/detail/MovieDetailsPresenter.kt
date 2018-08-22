@@ -22,12 +22,19 @@ class MovieDetailsPresenter @Inject constructor(val detailsInteractor: MovieDeta
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
+        loadDetails()
+    }
+
+    fun loadDetails() {
         detailsInteractor.getMoviesDetail(id)
                 .doOnSubscribe { viewState.showProgress(true) }
                 .doAfterTerminate { viewState.showProgress(false) }
                 .subscribe(
                         { movie -> viewState.showMovieDetails(movie) },
-                        { errorHandler.proceed(it, { viewState.showMessage(it) }) }
+                        { errorHandler.proceed(it, {
+                            viewState.showMessage(it)
+                            viewState.cancelPostponeTransition()
+                        }) }
                 )
                 .connect()
     }

@@ -27,6 +27,12 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         addFragment(savedInstanceState)
     }
 
+    override fun onBackPressed() {
+        (supportFragmentManager.findFragmentById(
+                R.id.fragmentContainer) as BaseFragment).onBackPressed()
+        super.onBackPressed()
+    }
+
     private fun addFragment(savedInstanceState: Bundle?) =
             savedInstanceState ?: supportFragmentManager.inTransaction { add(
                     R.id.fragmentContainer, fragment()) }
